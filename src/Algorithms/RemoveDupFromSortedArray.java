@@ -1,38 +1,30 @@
-package Algorithms;
-
-import java.util.Arrays;
+package myPractice;
 
 public class RemoveDupFromSortedArray {
 
-	public static void main(String[] args){
-		int[] array={1,1,2};
-		System.out.println(removeDuplicates(array));
+	public static void main(String[] main){
+		int[] A = new int[3];
+		RemoveDupFromSortedArray helper = new RemoveDupFromSortedArray();
+		System.out.println(helper.removeDuplicates(A));
 	}
 	
-	public static int removeDuplicates(int[] A) {
+	public int removeDuplicates(int[] A){
 		if(A==null || A.length<1){
 			return 0;
 		}
-		else if(A.length==1){
-			return 1;
-		}
-		else{
-			int i=0;
-			int j=1;
-			
-			while(i<A.length && j<A.length){
-				if(A[i]==A[j]){
-					//another dup
-					j++;
-				}
-				else{
-					i++;
-					A[i]=A[j];
-					j++;
-				}
+		
+		int idx=0;
+		int cur=A[0];
+		for(int i=1;i<A.length;i++){
+			if(A[i]==cur){
+				continue;
 			}
-			A=Arrays.copyOf(A, i+1);
-			return i+1;
+			else{
+				idx++;
+				cur=A[i];
+				A[idx]=cur;
+			}
 		}
+		return idx+1;
 	}
 }
