@@ -1,0 +1,58 @@
+o -> o -> o
+                -> x -> y
+o ->
+
+
+public Node FindIntersection(Node head1, Node head2){
+        if(head1==null || head2==null){
+            return null;
+        }
+        
+        int size1=FindSize(head1);
+        int size2=FindSize(head2);
+        if(size1==0||size2==0){
+            return null;
+        }
+        
+        if(size2>size1){
+            Node temp=head1;
+            head2=head1;
+            head1=temp;
+        }
+        
+        Node cur1=head1;
+        Node cur2=head2;
+        int difference = Math.abs(size1-size2);
+        while(cur1!=null){
+                if(difference>0){
+                    cur1=cur1.next();
+                    difference--;
+                }
+                else{
+                    if(cur1==cur2){
+                        return cur1;
+                    }
+                    else{
+                        cur1=cur1.next();
+                        cur2=cur2.next();
+                    }
+               }             
+        }
+        
+        return null;
+ }
+ 
+ public int FindSize(Node head){
+         if(head==null){
+             return 0;
+        }
+        
+        int count=0;
+        Node cur=head;
+        while(cur!=null){
+                   count++;
+                   cur=cur.next();
+         }
+         
+         return count;
+}        
