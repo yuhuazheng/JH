@@ -32,7 +32,9 @@ public class DivideTwoInt {
 	    dividend = Math.abs(dividend);
 	    divisor = Math.abs(divisor);
 	    int digit = 0;
-	    while(divisor <= (dividend>>1))
+	    //dividend = divisor(a0*2^0+a1*2^1+...+an*2^n); a0,a1,..., an are either 0 or 1
+		//64=3*21=3*(1+4+16)
+		while(divisor <= (dividend>>1))
 	    {
 	        divisor <<= 1;
 	        digit++;
