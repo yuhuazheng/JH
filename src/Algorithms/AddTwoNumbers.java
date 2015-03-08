@@ -63,14 +63,6 @@ public class AddTwoNumbers {
 				res=res.next;
 			}
 		}
-		//reverse res
-		ListNode out = new ListNode(0);
-		while(head!=null){
-			ListNode next = out.next;
-			out.next=head;
-			head=head.next;
-			out.next.next=next;
-		}
-		return out.next;
+		return head.next;
 	}
 }
