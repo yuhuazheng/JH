@@ -14,38 +14,12 @@ public class MaxSubarray {
 			return 0;
 		}
 		
-		Boolean allNeg = true;
-		int maxneg=A[0];
-		int maxsub=A[0];
-		int cursub=A[0];
-		
-		for(int i=1; i<A.length;i++){
-			if(A[i]<0 && A[i]>maxneg){
-				maxneg=A[i];
-			}
-			if(allNeg && A[i]>=0){
-				allNeg = false;
-			}
-			
-			if(cursub<0){
-				//restart sub
-				cursub=A[i];
-			}
-			else{
-				cursub+=A[i];
-			}
-			
-			if(cursub>maxsub){
-				maxsub=cursub;
-			}
+		int global = A[0];
+		int local = A[0];
+		for(int i=1;i<A.length;i++){
+			local = Math.max(A[i], local+A[i]);
+			global = Math.max(global,local);
 		}
-		
-		if(!allNeg){
-			return maxsub;
-		}
-		else{
-			return maxneg;
-		}
-	}
-        
+		return global;
+	}     
 }
