@@ -10,7 +10,7 @@ public class JumpGame2 {
 			return 0;
 		}
 		int step=1;
-		int lastGlobal=0; //Farthest distance without adding one more step
+		int lastGlobal=A[0]; //Farthest distance without adding one more step
 		int global=A[0];
 		int local=A[0];
 		for(int i=1;i<=A.length-1&&i<=global;i++){
