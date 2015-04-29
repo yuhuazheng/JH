@@ -12,43 +12,36 @@ public class SpiralMatrix {
 	}
 	
 	public List<Integer> spiralOrder(int[][] matrix) {
-		ArrayList<Integer> res = new ArrayList<Integer>();
+		public List<Integer> spiralOrder(int[][] matrix) {
+       ArrayList<Integer> res = new ArrayList<Integer>();
 		if(matrix==null || matrix.length<1 || matrix[0].length<1){
 			return res;
 		}
 		int m=matrix.length;
 		int n=matrix[0].length;
-		int layer = Math.min(m, n)/2;
-		for(int i=0;i<layer;i++){
-			//get top row
-			for(int j=i;j<=n-1-i;j++){
-				res.add(matrix[i][j]);
-			}
-			//get right column
-			for(int j=i+1;j<=m-1-i;j++){
-				res.add(matrix[j][n-1-i]);
-			}
-			//get bottom row
-			for(int j=n-2-i;j>=i;j--){
-				res.add(matrix[m-1-i][j]);
-			}
-			//get left column
-			for(int j=m-2-i;j>i;j--){
-				res.add(matrix[j][i]);
-			}
-		}
-		//the middle row/col
-		if(Math.min(m, n)%2==1){
-			if(m>n){
-				for(int j=layer;j<m-layer;j++){
-					res.add(matrix[j][layer]);
-				}
-			}
-			else{
-				for(int j=layer;j<n-layer;j++){
-					res.add(matrix[layer][j]);
-				}
-			}
+		int row=0;
+		int col=-1;
+		while(true){
+		    //top row
+		    for(int i=0; i<n; i++){
+		        res.add(matrix[row][++col]); //++at front because every turn will shrink one step first
+		    }
+		    if(--m==0) break; //no more vertical direction
+		    //right column
+		    for(int i=0; i<m; i++){
+		        res.add(matrix[++row][col]);
+		    }
+		    if(--n==0) break;
+		    //bottom row
+		    for(int i=0; i<n; i++){
+		        res.add(matrix[row][--col]);
+		    }
+		    if(--m==0) break;
+		    //left column
+		    for(int i=0; i<m; i++){
+		        res.add(matrix[--row][col]);
+		    }
+		    if(--n==0) break;
 		}
 		return res;
 	}
