@@ -1,62 +1,31 @@
-package myPractice;
+package Algorithms;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Stack;
 
-public class MinStack {
-	List<Integer> elements = new ArrayList<Integer>();
-	List<Integer> mins = new ArrayList<Integer>();
+class MinStack {
+    Stack<Integer> mainStack = new Stack<Integer>();
+    Stack<Integer> minStack = new Stack<Integer>();
 	
 	public void push(int x) {
-        elements.add(x);
-        if(mins.isEmpty() || x< mins.get(mins.size()-1)){
-        	mins.add(x);
+        mainStack.push(x);
+        if(minStack.isEmpty()){
+        	minStack.push(x);
+        }
+        else if(minStack.peek()>=x){
+        	minStack.push(x);
         }
     }
 
     public void pop() {
-        if(elements.isEmpty()){
-        	return;
-        }
-    	int value = elements.remove(elements.size()-1);
-    	if(!mins.isEmpty()&& mins.get(mins.size()-1)==value){
-    		mins.remove(mins.size()-1);
-    	}
+        int temp = mainStack.pop();
+        if(temp==minStack.peek()) minStack.pop();
     }
 
     public int top() {
-        if(elements.isEmpty()){
-        	return Integer.MAX_VALUE;
-        }
-    	return elements.get(elements.size()-1);
+        return mainStack.peek();
     }
 
     public int getMin() {
-    	if(mins.isEmpty()){
-        	return Integer.MAX_VALUE;
-        }
-    	return mins.get(mins.size()-1);
-    }
-    
-    
-    public static void main(String[] args){
-    	MinStack stacker = new MinStack();
-    	stacker.push(2147483646);
-    	stacker.push(2147483646);
-    	stacker.push(2147483647);
-    	stacker.top();
-    	stacker.pop();
-    	stacker.getMin();
-    	stacker.pop();
-    	stacker.getMin();
-    	stacker.pop();
-    	stacker.push(2147483647);
-    	stacker.top();
-    	stacker.getMin();
-    	stacker.push(-2147483648);
-    	stacker.top();
-    	stacker.getMin();
-    	stacker.pop();
-    	stacker.getMin();
+        return minStack.peek();
     }
 }
