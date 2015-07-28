@@ -2,7 +2,7 @@ package Algorithms;
 
 public class PalindromeNumber {
 
-	public  bool isPalindrome(int x) {
+	public  boolean isPalindrome(int x) {
 		if(x<0){
 			return false;
 		}

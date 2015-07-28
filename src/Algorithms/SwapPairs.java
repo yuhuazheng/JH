@@ -37,6 +37,7 @@ public class SwapPairs {
 			cur1=next1;
 			cur2=next2;
 		}while(cur1!=null && cur2!=null);
-			
+
+		return head;
 	}
 }

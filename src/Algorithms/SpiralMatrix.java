@@ -1,4 +1,4 @@
-package myPractice;
+package Algorithms;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ public class SpiralMatrix {
 	}
 	
 	public List<Integer> spiralOrder(int[][] matrix) {
-		public List<Integer> spiralOrder(int[][] matrix) {
+
        ArrayList<Integer> res = new ArrayList<Integer>();
 		if(matrix==null || matrix.length<1 || matrix[0].length<1){
 			return res;

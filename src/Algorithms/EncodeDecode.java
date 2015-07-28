@@ -2,7 +2,7 @@
 * “aaaabbbb” → “a4b4” // encoding
 * “a3b5” → “aaabbbbb” // decoding
 */
-
+/*
 Public String Encode(String str){
 	if(str==null || str.length<1){
 		return str;
@@ -49,3 +49,4 @@ Public String Decode(String str){
 
 	return res.ToString();
 }
+*/

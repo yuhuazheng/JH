@@ -1,3 +1,7 @@
+package Algorithms;
+
+import java.util.LinkedList;
+
 class TrieNode {
     // Initialize your data structure here.
     

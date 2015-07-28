@@ -3,7 +3,7 @@ package Algorithms;
 public class SudokuValidate {
 
 	public static void main(String[] args){
-		char[][] board = {".87654321";"2........";"3........","4........","5........","6........","7........","8........","9........"};
+		char[][] board = null;//{".87654321","2........","3........","4........","5........","6........","7........","8........","9........"};
 		System.out.println(isValidSudoku(board)?"true":"false");
 		
 	}

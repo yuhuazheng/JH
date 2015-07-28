@@ -1,4 +1,7 @@
-public class Solution {
+package Algorithms;
+
+class firstMissingPositive {
+
     public int firstMissingPositive(int[] nums) {
         if(nums==null) return 0;
         int n=nums.length;
