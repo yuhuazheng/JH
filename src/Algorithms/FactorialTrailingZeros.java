@@ -14,9 +14,9 @@ public class FactorialTrailingZeros {
 //            count += n / i;
 //        } 
         
-        while(n/5>=1) { //or reduce n
-            count += n / 5;
-            n/=5;
+        while(n>0) { //or reduce n
+            count += n / 5; //n divide by 5
+            n/=5; //n itself divide by 5; next round n/5 will be the original n/25; etc.
         }
         
         return count;
