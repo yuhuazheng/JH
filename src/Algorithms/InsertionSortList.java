@@ -1,10 +1,10 @@
-package myPractice;
+package Algorithms;
 
 public class InsertionSortList {
 
 	public static void main(String[] args){
 		
-		int[] values = {3,1,2,5};
+		int[] values = {1,1};
 		//int[] values = {1,3,3,1,3,1,3,3,2,3,2,2,1,1,1,3,2,2,1,1,2,2,2,3,3,1,1,2,2,2,1,2,1,1,2,3,3,2,2,3,2,3,2,2,2,1,1,3,2,3,3,1,1,1,2,2,1,2,2,2,2,3,1,3,1,1,1,2,1,2,2,2,1,3,2,2,2,3,3,2,3,3,1,1,2,2,1,2,1,3,2,1,3,3,1,2,1,1,1,1,1,2,1,2,2,2,2,3,3,3,1,1,3,2,1};
 		ListNode list = new ListNode(values[0]);
 		ListNode pre=list;
@@ -14,8 +14,7 @@ public class InsertionSortList {
 			pre = cur;
 		}
 		InsertionSortList sorter = new InsertionSortList();
-		ListNode sorted = sorter.insertionSortList(list);
-		ListNode front = sorted;
+		ListNode front = sorter.insertionSortList(list);
 		
 		while(front!=null){
 			System.out.println(front.val);
@@ -23,47 +22,44 @@ public class InsertionSortList {
 		}
 	}
 
-	public ListNode insertionSortList(ListNode head) {        
+	public ListNode insertionSortList(ListNode head) {
 		if(head==null || head.next==null){
 			return head;
 		}
-		
-		ListNode sorted = new ListNode(head.val);
-		
-		ListNode front = head.next;
-		while(front!=null){
-			sorted = insertToList(sorted,new ListNode(front.val));
-			front=front.next;
+
+		ListNode sHead = new ListNode(0);
+		ListNode cur = head;
+
+		while(cur!=null){
+			ListNode nt = cur.next;
+			insertToList(sHead,cur);
+			cur=nt;
 		}
-		return sorted;
-		
+		return sHead.next;
+
 	}
-	
-	public ListNode insertToList(ListNode sorted, ListNode data){
-		if(sorted==null){
-			return sorted;
+
+	public void insertToList(ListNode sHead, ListNode cur){
+		if(sHead.next==null){
+			sHead.next=cur;
+			cur.next=null;
+			return;
 		}
-		
-		ListNode pre = sorted;
-		ListNode cur = sorted;
-		int counter = 0;
-		while(data.val>=cur.val){
-			counter++;
-			pre=cur;
-			cur=cur.next;
-			if(cur==null){
-				break;
-			}
+
+		ListNode sPre = sHead;
+		ListNode sCur = sHead.next;
+		while(sCur!=null && cur.val>sCur.val){
+			sPre=sCur;
+			sCur=sCur.next;
 		}
-		if(counter==0){
-			//insert to head
-			data.next=sorted;
-			sorted = data;
+		if(sCur==null){
+			//insert to end
+			sPre.next=cur;
+			cur.next=null;
 		}
 		else{
-			pre.next=data;
-			data.next=cur;
+			sPre.next=cur;
+			cur.next=sCur;
 		}
-		return sorted;
 	}
 }
