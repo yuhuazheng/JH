@@ -1,44 +1,38 @@
 package Algorithms;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * Created by yuhuazh on 9/30/2015.
  */
 public class ZigzagIterator {
-    Queue<Integer> q;
+    Iterator<Integer> it1;
+    Iterator<Integer> it2;
+    int turn;
 
     public ZigzagIterator(List<Integer> v1, List<Integer> v2) {
-        int curRow=0;
-        int curCol=0;
-        int maxCol = Math.max(v1.size(),v2.size());
-        q = new LinkedList<Integer>();
-        boolean foundNext = true;
-
-        while(curCol<maxCol){
-            if((curRow==0&&curCol<v1.size()) || (curRow==1&&curCol<v2.size())){
-                int v = curRow==0 ? v1.get(curCol): v2.get(curCol);
-                q.offer(v);
-            }
-
-            curRow++;
-            if(curRow==2){
-                curRow=0;
-                curCol++;
-            }
-        }
+        if(!v1.isEmpty()) it1=v1.iterator();
+        if(!v2.isEmpty()) it2=v2.iterator();
+        turn = 0;
     }
 
     public int next() {
-
-        return q.poll();
+        if(!hasNext()) return 0;
+        turn++;
+        // ??????????????????????????????????
+        // ???????????????????????
+        if((turn % 2 == 1 && it1.hasNext()) || (!it2.hasNext())){
+            return it1.next();
+            // ??????????????????????????????????
+            // ???????????????????????
+        } else if((turn % 2 == 0 && it2.hasNext()) || (!it1.hasNext())){
+            return it2.next();
+        }
+        return 0;
     }
 
     public boolean hasNext() {
-        return !q.isEmpty();
+        return it1.hasNext()||it2.hasNext();
     }
 
     public static void main(String[] args){
