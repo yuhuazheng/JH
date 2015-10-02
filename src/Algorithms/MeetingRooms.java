@@ -19,7 +19,7 @@ public class MeetingRooms {
     public boolean canAttendMeetings(Interval[] intervals) {
         if(intervals==null || intervals.length<2) return true;
 
-        Arrays.sort(intervals, (v1, v2) -> v1.start-v2.start);
+        //Arrays.sort(intervals, (v1, v2) -> v1.start-v2.start);
 
         for(int i=1;i<intervals.length;i++){
             if(intervals[i].start<intervals[i-1].end)

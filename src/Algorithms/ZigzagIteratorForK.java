@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by yuhuazh on 10/1/2015.
  */
-public class ZigzagIteratorForK implements Iterator<Integer> {
+public class ZigzagIteratorForK {
 
         List<Iterator<Integer>> itlist;
         int turns;
