@@ -8,29 +8,51 @@ import java.util.List;
  */
 public class DiffrentWaysParenthese {
 
+    public static void main(String[] args){
+        String input = "10+5";
+        DiffrentWaysParenthese inst = new DiffrentWaysParenthese();
+        List<Integer> res = inst.diffWaysToCompute(input);
+        System.out.println(res);
+    }
+
     public List<Integer> diffWaysToCompute(String input) {
         List<Integer> res = new ArrayList<>();
         if(input==null||input.length()==0) return res;
 
-        for(int i=0;i<input.length();i++){
+        res=helper(input,0,input.length()-1);
+        return res;
+    }
+
+    private List<Integer> helper(String input, int start, int end){
+        List<Integer> res = new ArrayList<>();
+        if(input==null||input.length()==0 || start>end || start<0 || end>=input.length()) return res;
+
+        //whole substring is a number
+        String sub = input.substring(start,end+1);
+        if(sub.indexOf('+')<0 && sub.indexOf('-')<0 && sub.indexOf('*')<0){
+            int v=0;
+            for(int i=start;i<=end;i++){
+                v = v*10+ (input.charAt(i)-'0');
+            }
+            res.add(v);
+            return res;
+        }
+
+        //divide and conquer
+        for(int i=start;i<=end;i++){
             char op = input.charAt(i);
             if(op=='+'||op=='-'||op=='*'){
-                List<Integer> left = (input,0,i-1);
-                List<Integer> right = (input,i+1,input.length()-1);
+                List<Integer> left = helper(input,start,i-1);
+                List<Integer> right = helper(input,i+1,end);
                 for(Integer l : left){
                     for(Integer r: right){
-                        int cur=0;
                         if(op=='+') res.add(l+r);
-                        if(op=='-') res.add(l-r);
-                        if(op=='*') res.add(l*r);
+                        else if(op=='-') res.add(l-r);
+                        else res.add(l*r);
                     }
                 }
             }
         }
         return res;
-    }
-
-    private List<Integer> helper(String input, int start, int end){
-
     }
 }
