@@ -12,7 +12,7 @@ public class MeetingRommsII {
         if(intervals==null || intervals.length==0) return 0;
         if(intervals.length==1) return 1;
 
-        Arrays.sort(intervals, (v1, v2) -> v1.start - v2.start);
+        //Arrays.sort(intervals, (v1, v2) -> v1.start - v2.start);
         PriorityQueue<Integer> rooms = new PriorityQueue<>();
         rooms.add(intervals[0].end);
         for(int i=1;i<intervals.length;i++){
