@@ -6,6 +6,7 @@ import java.util.*;
  * Created by yuhuazh on 10/13/2015.
  */
 public class GraphValidTreeDFS {
+   /*
     public static void main(String[] args){
         int[][] edges = {
                 {0,1},
@@ -62,4 +63,5 @@ public class GraphValidTreeDFS {
         onPath[cur]=false;
         return false;
     }
+    */
 }

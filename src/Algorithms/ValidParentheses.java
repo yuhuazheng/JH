@@ -6,62 +6,22 @@ public class ValidParentheses {
 
 	public static void main(String[] args){
 		ValidParentheses helper = new ValidParentheses();
-		helper.isValid("()[]{}");
+		System.out.println(helper.isValid("()[]{}"));
 	}
 	
 	public boolean isValid(String s) {
-		if(s==null || s.length()<1){
-			return true;
-		}
-		Stack<Character> buf = new Stack<Character>();
+		if(s.length()==0 || s=="") return true;
+		if(s.length()%2!=0) return false;
+		Stack<Character> stk = new Stack<Character>();
 		for(int i=0;i<s.length();i++){
-			Character c = s.charAt(i);
-			if(c=='(' || c=='{' || c=='['){
-				buf.push(c);
+			char c = s.charAt(i);
+			if(c=='('||c=='['||c=='{') stk.push(c);
+			if(c==')'||c==']'||c=='{'){
+				if(stk.isEmpty()) return false;
+				char c2 = stk.pop();
+				if( (c==')'&&c2!='(') || (c==']'&&c2!='[') || (c=='}'&&c2!='{')) return false;
 			}
-			else if(c==')'){
-				if(buf.isEmpty()){
-					return false;
-				}
-				Character l = buf.peek();
-				if(l=='('){
-					buf.pop();
-				}
-				else{
-					return false;
-				}
-			}
-			else if(c=='}'){
-				if(buf.isEmpty()){
-					return false;
-				}
-				Character l = buf.peek();
-				if(l=='{'){
-					buf.pop();
-				}
-				else{
-					return false;
-				}
-			}
-			else if(c==']'){
-				if(buf.isEmpty()){
-					return false;
-				}
-				Character l = buf.peek();
-				if(l=='['){
-					buf.pop();
-				}
-				else{
-					return false;
-				}
-			}
-			//omit all other char
 		}
-		if(buf.isEmpty()){
-			return true;
-		}
-		else{
-			return false;
-		}
+		return stk.isEmpty();
 	}
 }
