@@ -6,33 +6,26 @@ import java.util.*;
  * Created by yuhuazh on 9/30/2015.
  */
 public class ZigzagIterator {
-    Iterator<Integer> it1;
-    Iterator<Integer> it2;
-    int turn;
+
+    List<Iterator<Integer>> iters = new ArrayList<Iterator<Integer>>();
+    int count=0;
 
     public ZigzagIterator(List<Integer> v1, List<Integer> v2) {
-        if(!v1.isEmpty()) it1=v1.iterator();
-        if(!v2.isEmpty()) it2=v2.iterator();
-        turn = 0;
+        if(!v1.isEmpty()) iters.add(v1.iterator());
+        if(!v2.isEmpty()) iters.add(v2.iterator());
     }
 
     public int next() {
-        if(!hasNext()) return 0;
-        turn++;
-        // ??????????????????????????????????
-        // ???????????????????????
-        if((turn % 2 == 1 && it1.hasNext()) || (!it2.hasNext())){
-            return it1.next();
-            // ??????????????????????????????????
-            // ???????????????????????
-        } else if((turn % 2 == 0 && it2.hasNext()) || (!it1.hasNext())){
-            return it2.next();
-        }
-        return 0;
+        int x = iters.get(count).next();
+        if(!iters.get(count).hasNext()) iters.remove(count);
+        else count++;
+
+        if(iters.size()!=0) count%=iters.size(); //re-assign count back to head if it reached the end
+        return x;
     }
 
     public boolean hasNext() {
-        return it1.hasNext()||it2.hasNext();
+        return !iters.isEmpty();
     }
 
     public static void main(String[] args){
