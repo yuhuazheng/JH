@@ -16,41 +16,19 @@ public class NextRightPointer {
 			return;
 		}
 		
-		Queue<TreeLinkNode> buf = new LinkedList<TreeLinkNode>();
-		int curLevel=0;
-		int nextLevel=0;
-		root.next=null;
-		if(root.left!=null){
-			buf.offer(root.left);
-			curLevel++;
-		}
-		if(root.right!=null){
-			buf.offer(root.right);
-			curLevel++;
-		}
-		TreeLinkNode cur = null;
-		TreeLinkNode next = null;
-		while(!buf.isEmpty()){
-			cur = buf.poll();
-			if(cur.left!=null){
-				buf.offer(cur.left);
-				nextLevel++;
+		TreeLinkNode cur = root;
+		TreeLinkNode nextLevelHead = root.left;
+		while(cur!=null && nextLevelHead!=null){
+			cur.left.next = cur.right;
+			TreeLinkNode nt = cur.next;
+			if(nt!=null){ //moving to right
+				cur.right.next=nt.left;
+				cur=nt;
 			}
-			if(cur.right!=null){
-				buf.offer(cur.right);
-				nextLevel++;
-			}
-			curLevel--;
-			if(curLevel>0){
-				next=buf.peek();
-				cur.next=next;
-			}
-			else{
-				cur.next=null;
-				curLevel=nextLevel;
-				nextLevel=0;
+			else{ //moving down to next level
+				cur = nextLevelHead;
+				nextLevelHead = nextLevelHead.left;
 			}
 		}
-		return;
 	}
 }
