@@ -14,7 +14,7 @@ public class maxProd {
 
     public int maxProduct(String[] words) {
         if(words==null||words.length<2) return 0;
-        Arrays.sort(words, (w1, w2) -> w2.length()-w1.length());
+        //Arrays.sort(words, (w1, w2) -> w2.length()-w1.length());
         int n = words.length;
 
         //encode words
