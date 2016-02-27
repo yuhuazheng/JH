@@ -5,19 +5,22 @@ package Algorithms;
  */
 public class ClosestBSTValue {
     public int closestValue(TreeNode root, double target) {
-
+        //what is the ideal closest value? ==target
+        //so this problem actually is looking for target
+        //binary search
         if(root.left==null && root.right==null) return root.val;
         int min = root.val;
-        if(root.left!=null) {
-            int l = closestValue(root.left, target);
-            if (Math.abs(l - target) < Math.abs(min - target)) {
-                min = l;
+        double diff;
+        TreeNode cur = root;
+        while(cur!=null){
+            diff = (double)cur.val-target;
+            if(diff==0) return cur.val;
+            if(Math.abs(diff)<Math.abs(min-target)) min=cur.val;
+            if(diff>0){
+                cur=cur.left;
             }
-        }
-        if(root.right!=null) {
-            int r = closestValue(root.right, target);
-            if (Math.abs(r - target) < Math.abs(min - target)) {
-                min = r;
+            else{
+                cur=cur.right;
             }
         }
         return min;
