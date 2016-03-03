@@ -20,14 +20,14 @@ public class BSTUpsideDown {
     }
 
     public TreeNode upsideDownBinaryTree(TreeNode root) {
-        TreeNode n=root, p=null, r=null;
-        while(n!=null){
-            TreeNode l=n.left;
-            n.left=r;
-            r=n.right;
-            n.right=p;
-            p=n;
-            n=l;
+        TreeNode cur=root, p=null, preR=null, ntL=null;
+        while(cur!=null){
+            ntL=cur.left; //store next left
+            cur.left=preR;//previous level right becomes new left
+            preR=cur.right;//preR is free now, assigned with curent right for next round
+            cur.right=p; //parent becomes new right
+            p=cur;//move down one level
+            cur=ntL;
         }
         return p;
     }
