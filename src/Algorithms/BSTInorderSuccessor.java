@@ -17,21 +17,6 @@ public class BSTInorderSuccessor {
         System.out.print(res.val);
     }
 
-    /*public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
-        if(root==null) return null;
-        boolean[] foundP=new boolean[1];
-        foundP[0]=false;
-        return helper(root,p,foundP);
-    }
-
-    private TreeNode helper(TreeNode root,TreeNode p, boolean[] foundP){
-        if(root==null) return null;
-        TreeNode l = root.left==null? null: helper(root.left,p,foundP);
-        if(l!=null) return l;
-        if(foundP[0]) return root;
-        if(root.val==p.val) foundP[0]=true;
-        return helper(root.right,p,foundP);
-    }*/
 
     public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
         if(p.right!=null) return minNode(p.right);
@@ -40,14 +25,14 @@ public class BSTInorderSuccessor {
         TreeNode cur = root;
         //find the closest parent that has bigger value than p
         //if p is left child, it will be immediate parent
-        //if p is right child, it will trace back up, but its value is bigger than p
+        //if p is right child, it will trace back up to the closest left turn.
         while(cur.val!=p.val){
-            if(cur.val>p.val){
+            if(cur.val>p.val){ //going left, update both parent and cur
                 parent=cur;
                 cur=cur.left;
             }
             else{
-                cur=cur.right;
+                cur=cur.right; //going right, hold parent, update cur
             }
         }
         return parent;
