@@ -20,59 +20,20 @@ public class Search2DMatrixII {
     }
 
     public boolean searchMatrix(int[][] matrix, int target) {
-        if(matrix==null || matrix.length==0 || matrix[0].length==0) return false;
-        if(target<matrix[0][0]) return false;
-        int r=matrix.length;
-        int c=matrix[0].length;
-        if(target>matrix[r-1][c-1]) return false;
+        if(matrix==null ||matrix.length==0||matrix[0].length==0) return false;
+        int row = matrix.length;
+        int col = matrix[0].length;
 
-        //find possible rows
-        //take all elements of 1st column, find the location to insert target
-        int start=0;
-        int end=r-1;
-        while(start<=end){
-            int m = (start+end)/2;
-            if(matrix[m][0]==target) return true;
-            if(matrix[m][0]>target){
-                end=m-1;
-            }
-            else{
-                start=m+1;
-            }
-        }
-        int upperR=start-1;
-
-        //now look at the last column
-        end=start-1;
-        start=0;
-        while(start<=end){
-            int m=(start+end)/2;
-            if(matrix[m][c-1]==target) return true;
-            if(matrix[m][c-1]>target){
-                end=m-1;
-            }
-            else{
-                start=m+1;
-            }
-        }
-        int lowerR=start;
-
-        if(lowerR>upperR) return false;
-
-        //find col
-        for(int i=lowerR;i<=upperR;i++) {
-            start = 0;
-            end = c - 1;
-            while (start <= end) {
-                int m = (start + end) / 2;
-                if (matrix[i][m] == target) return true;
-                if (matrix[i][m] < target) {
-                    start = m + 1;
-                } else {
-                    end = m - 1;
-                }
-            }
+        int r=0;
+        int c=col-1;
+        //from top-right, shrink
+        while(r<row&&c>=0){
+            int x = matrix[r][c];
+            if(x==target) return true;
+            if(x>target) c--; //this col is not valid
+            else r++; //this row is not valid
         }
         return false;
+
     }
 }
