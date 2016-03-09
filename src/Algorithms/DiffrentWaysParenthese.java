@@ -30,11 +30,7 @@ public class DiffrentWaysParenthese {
         //whole substring is a number
         String sub = input.substring(start,end+1);
         if(sub.indexOf('+')<0 && sub.indexOf('-')<0 && sub.indexOf('*')<0){
-            int v=0;
-            for(int i=start;i<=end;i++){
-                v = v*10+ (input.charAt(i)-'0');
-            }
-            res.add(v);
+            res.add(Integer.parseInt(sub));
             return res;
         }
 
