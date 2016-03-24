@@ -8,8 +8,29 @@ public class Pow {
 		Pow helper = new Pow();
 		System.out.println(helper.pow(x, n));
 	}
-	
+
 	public double pow(double x, int n) {
+		if(n==0) return 1.0;
+		if(n>0) return powPositive(x,n);
+		else{
+			if(n>Integer.MIN_VALUE) {
+				return 1 / powPositive(x, -n);
+			}
+			else{
+				return x/powPositive(x,-(n+1));
+			}
+		}
+	}
+
+	private double powPositive(double x, int n){
+		if(n==0) return 1;
+		double halfRes = powPositive(x,n/2);
+		double res = halfRes*halfRes;
+		if(n%2==1) res*=x;
+		return res;
+	}
+
+	/*public double pow(double x, int n) {
 		if(n==0){
 			return 1.0;
 		}
@@ -59,5 +80,5 @@ public class Pow {
 		}
 		
 		return isNeg?-res:res;
-	}
+	}*/
 }
