@@ -6,40 +6,36 @@ package Algorithms;
 public class ReverseWordsII {
 
     public static void main(String[] args){
-        String str = "a b";
+        String str = " ";
         ReverseWordsII inst  = new ReverseWordsII();
-        char[] s = str.toCharArray();
-        inst.reverseWords(s);
-        System.out.println(s);
+        System.out.println(inst.reverseWords(str));
     }
 
-    public void reverseWords(char[] s) {
-        if(s==null || s.length<=1) return;
+    public String reverseWords(String s) {
+        if(s==null || s.length()<1) return s;
 
-        reverse(s,0,s.length-1);
-        int l=0;
-        int r=0;
-        for(int i=1;i<s.length;i++){
-            if(s[i]==' '){
-                reverse(s,l,r);
-                l=i+1;
-                r=l;
-                i++;
+        s=s.trim();
+        StringBuilder sb = new StringBuilder(s);
+        sb=sb.reverse();
+
+        StringBuilder res = new StringBuilder();
+        int i=0;
+        int l=i;
+        while(i<sb.length()){
+            if(sb.charAt(i)==' '){
+                StringBuilder sub = new StringBuilder(sb.substring(l,i));
+                res.append(sub.reverse());
+                res.append(' ');
+                while(i<sb.length()&&sb.charAt(i)==' '){
+                    i++;
+                }
+                l=i;
             }
-            else{
-                r++;
-            }
+            i++;
         }
-        reverse(s,l,r);
+        StringBuilder sub = new StringBuilder(sb.substring(l,i));
+        res.append(sub.reverse());
+        return res.toString();
     }
 
-    private void reverse(char[] s, int l, int r){
-        while(l<r){
-            char temp = s[l];
-            s[l]=s[r];
-            s[r]=temp;
-            l++;
-            r--;
-        }
-    }
 }
