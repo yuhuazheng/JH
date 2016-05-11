@@ -1,82 +1,71 @@
 package Algorithms;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Nqueens {
 
 	public static void main(String[] args){
 		Nqueens inst = new Nqueens();
-		List<String[]> res = inst.solveNQueens(9);
+		List<List<String>> res = inst.solveNQueens(4);
 		System.out.println(res.size());
 	}
 	
-	public List<String[]> solveNQueens(int n) {
-		List<String[]> res = new ArrayList<String[]>();
-		if(n<=0) return res;
-		if(n==1){
-			String[] temp = {"Q"};
+	public List<List<String>> solveNQueens(int n) {
+		List<List<String>> res = new ArrayList<>();
+		if (n <= 0) return res;
+		if (n == 1) {
+			List<String> temp = new ArrayList<>();
+			temp.add("Q");
 			res.add(temp);
 			return res;
 		}
-		
-		boolean[] col = new boolean[n];
-		List<point[]> res1 = new ArrayList<point[]>();
-		point[] item = new point[n];
-		helper(0,col,item,res1);
-		for(point[] t : res1){
-			String[] strarray = new String[n];
-			StringBuilder sb = new StringBuilder();
-			for(int j=0; j<n;j++){
-				
-				point p = t[j];
-				for(int i=0;i<n;i++){
-					if(i==p.c){
-						sb.append("Q");
-					}
-					else{
-						sb.append(".");
-					}
-				}
-				strarray[j]=sb.toString();
-				sb = new StringBuilder();
-			}
-			res.add(strarray);
-		}
+
+		boolean[] usedCol = new boolean[n];
+		int[] item = new int[n];
+		Arrays.fill(item,-1);
+		helper(0, usedCol, item, res);
 		return res;
 	}
-	
-	//find kth queen for kth row
-	private void helper(int k, boolean[] col, point[] item, List<point[]> res1){
-		int n = col.length;
-		if(k==n&&item.length>0) res1.add(item.clone());
-		for(int i=0; i<n;i++){
-			point p = new point(k,i);
-			if(col[i]==false&&isValidAngel(k,p,item)){
-				col[i]=true;
-				item[k]=p;
-				helper(k+1,col,item,res1);
-				item[k]=new point(0,0);
-				col[i]=false;
+
+	//add kth row
+	private void helper(int k, boolean[] usedCol, int[] item, List<List<String>> res) {
+		int n = usedCol.length;
+		if (k == n) {
+			//a valid solution
+			List<String> oneSol = new ArrayList<>();
+			for (int i = 0; i < n; i++) {
+				char[] oneRow = new char[n];
+				Arrays.fill(oneRow, '.');
+				oneRow[item[i]] = 'Q';
+				oneSol.add(new String(oneRow));
 			}
+			res.add(oneSol);
+			return;
+		}
+
+		//update kth row
+		for (int i = 0; i < n; i++) {
+			if (!isValid(k,i, usedCol, item))
+				continue;
+			item[k] = i;
+			usedCol[i] = true;
+			helper(k + 1, usedCol, item, res);
+			usedCol[i] = false;
+			item[k] = -1;
 		}
 	}
-	
-	private boolean isValidAngel(int k, point p, point[] item){
-		if(k>=item.length) return false;
-		for(int i=0;i<k;i++){
-			point p1 = item[i];
-			if( (p.r-p1.r)==(p.c-p1.c) || (p.r-p1.r)==(p1.c-p.c)) return false;
+
+	private boolean isValid(int k, int i, boolean[] usedCol,int[] item) {
+		//if valid at kth row, ith col
+		if (usedCol[i])
+			return false;
+		for (int r = 0; r < k; r++) {
+			if (Math.abs(k - r) == Math.abs(i - item[r]))
+				return false;
 		}
 		return true;
 	}
-	
-	private class point{
-		int r;
-		int c;
-		public point(int a, int b){
-			r=a;
-			c=b;
-		}
-	}
+
 }
