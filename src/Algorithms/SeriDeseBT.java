@@ -11,7 +11,7 @@ import java.util.Queue;
 public class SeriDeseBT {
 
     public static void main(String[] args) {
-        String data = "1,"+null+",2";
+        String data = "1,2,null,3,null,4,null,5";
         Codec inst = new Codec();
         String s = inst.serialize(inst.deserialize(data));
         System.out.println(s);
@@ -34,12 +34,12 @@ public class SeriDeseBT {
                     q.offer(cur.right);
                 }
                 else{
-                    values.add(null);
+                    values.add("null");
                 }
             }
             //remove tail nulls
             String last = values.get(values.size()-1);
-            while(last==null){
+            while(last.equals("null")){
                 values.remove(values.size()-1);
                 last=values.get(values.size()-1);
             }
@@ -60,7 +60,7 @@ public class SeriDeseBT {
             //build nodes
             List<TreeNode> nodes = new ArrayList<>();
             for(String v : values){
-                if(v==null){
+                if(v.equals("null")){
                     nodes.add(null);
                 }
                 else{
@@ -75,10 +75,7 @@ public class SeriDeseBT {
             int idx=1;
             while(!preLevel.isEmpty()){
                 TreeNode cur = preLevel.poll();
-                if(cur==null){
-                    continue;
-                }
-                else{
+                if(cur!=null){
                     if(idx>=nodes.size()){
                         break;
                     }
