@@ -9,10 +9,19 @@ import java.util.Queue;
  * Created by yuhuazh on 5/17/2016.
  */
 public class SeriDeseBT {
-    public class Codec {
+
+    public static void main(String[] args) {
+        String data = "1,"+null+",2";
+        Codec inst = new Codec();
+        String s = inst.serialize(inst.deserialize(data));
+        System.out.println(s);
+    }
+
+    public static class Codec {
 
         // Encodes a tree to a single string.
         public String serialize(TreeNode root) {
+            if(root==null) return "";
             List<String> values = new ArrayList<>();
             Queue<TreeNode> q = new LinkedList<>();
             q.offer(root);
@@ -45,20 +54,53 @@ public class SeriDeseBT {
 
         // Decodes your encoded data to tree.
         public TreeNode deserialize(String data) {
+            if(data==null||data.length()==0) return null;
+
             String[] values = data.split(",");
-            if(values.length==0) return null;
-            int count=1;
-            int visited=0;
-            int idx=0;
-
-            while(idx<values.length){
-                if(values[idx]!=null){
-                    int curValue = Integer.valueOf(values[idx]);
-                    TreeNode curNode = new TreeNode(curValue);
-
+            //build nodes
+            List<TreeNode> nodes = new ArrayList<>();
+            for(String v : values){
+                if(v==null){
+                    nodes.add(null);
+                }
+                else{
+                    TreeNode cur = new TreeNode(Integer.valueOf(v));
+                    nodes.add(cur);
+                }
             }
 
+            Queue<TreeNode> preLevel = new LinkedList<>();
+            preLevel.offer(nodes.get(0));
+            Queue<TreeNode> curLevel = new LinkedList<>();
+            int idx=1;
+            while(!preLevel.isEmpty()){
+                TreeNode cur = preLevel.poll();
+                if(cur==null){
+                    continue;
+                }
+                else{
+                    if(idx>=nodes.size()){
+                        break;
+                    }
+                    TreeNode nt = nodes.get(idx);
+                    curLevel.offer(nt);
+                    cur.left=nt;
+                    idx++;
+                    if(idx>=nodes.size()){
+                        break;
+                    }
+                    nt=nodes.get(idx);
+                    curLevel.offer(nt);
+                    cur.right=nt;
+                    idx++;
+                }
 
+                if(preLevel.isEmpty()) {
+                    preLevel = curLevel;
+                    curLevel = new LinkedList<>();
+                }
+            }
+            return nodes.get(0);
         }
     }
 }
