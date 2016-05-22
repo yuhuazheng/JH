@@ -1,4 +1,3 @@
-package myPractice;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,7 +30,7 @@ public class MergeIntervals {
 			return intervals;
 		}
 		
-		Collections.sort(intervals, new IntervalComparator());
+		Collections.sort(intervals, (i1,i2)->(i1.start-i2.start));
 		
 		List<Interval> merged = new ArrayList<Interval>();
 		merged.add( new Interval(intervals.get(0).start,intervals.get(0).end) );
@@ -57,18 +56,5 @@ public class MergeIntervals {
 	
 }
 
-class IntervalComparator implements Comparator<Interval>{
-	public int compare(Interval v1, Interval v2){
-		return v1.start-v2.start;
-	}
-}
 
-//Definition for an interval.
-class Interval {
-     int start;
-     int end;
-
-     Interval() { start = 0; end = 0; }
-     Interval(int s, int e) { start = s; end = e; }
-}
 
