@@ -1,6 +1,7 @@
 package Algorithms;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by yuhua on 3/10/16.
@@ -17,45 +18,30 @@ public class UglyNumberII {
         int[] factors = {2,3,5};
         int size = factors.length;
         int[] index = new int[size]; //each sequence, what is the previous ugly number for it
-        int[] candidates = factors.clone(); //sequences
         int[] uglynums = new int[n]; //store ugly number
         uglynums[0]=1;
         int count=0;
-        ArrayList<Integer> minCandIndex = new ArrayList<>();
 
         while(count<n-1){
-            count++;
-            //find min candidates
-            minCandIndex.clear();
-            uglynums[count] = findMinIndex(candidates, minCandIndex);
-            //udpate index and candiates
-            for(int i : minCandIndex){ //ith factor
-                //move index to current location in uglynums for this factor
-                index[i]++;
-                //find next candiddate for this factor
-                int uglyBase = uglynums[index[i]];
-                int factorVal = factors[i];
-                candidates[i] = uglyBase*factorVal;
-            }
+            findNextUgly(factors, index, uglynums,++count);
         }
         return uglynums[n-1];
     }
 
-    private int findMinIndex(int[] candidates, ArrayList<Integer> minIndex){
-        int minVal = candidates[0];
-        int curVal = minVal;
-        minIndex.add(0);
-        for(int i=1;i<candidates.length;i++){
-            curVal = candidates[i];
-            if(curVal==minVal)
-                minIndex.add(i);
-            if(curVal<minVal) {
-                minIndex.clear();
-                minIndex.add(i);
-                minVal=curVal;
+    private void findNextUgly(int[] factors, int[] index, int[] uglynums, int count){
+        int n = factors.length;
+        int minVal = Integer.MAX_VALUE;
+        int[] candidates = new int[n];
+        for(int i=0;i<n;i++){
+            candidates[i]=uglynums[index[i]]*factors[i]; //how each sequence is made of: an uglynumber * factor
+            minVal = Math.min(minVal,candidates[i]);
+        }
+        for(int i=0;i<n;i++){
+            if(candidates[i]==minVal){
+                index[i]++;
             }
         }
-        return minVal;
+        uglynums[count]=minVal;
     }
 
     public static void main(String[] args){
