@@ -1,4 +1,3 @@
-package Algorithms;
 
 import java.util.*;
 
@@ -14,9 +13,9 @@ public class MinHeighTrees {
             return res;
         }
 
+        HashMap<Integer,HashSet<Integer>> map = new HashMap<Integer,HashSet<Integer>>();
         HashSet<Integer> cand = new HashSet<>(); //to hold candidates for root
         HashSet<Integer> leaves = new HashSet<>(); //to hold current leaves, they should be removed from cand
-        HashMap<Integer,HashSet<Integer>> map = new HashMap<Integer,HashSet<Integer>>();
 
         for(int i=0;i<n;i++){
             cand.add(i);
