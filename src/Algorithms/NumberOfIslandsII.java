@@ -51,7 +51,7 @@ public class NumberOfIslandsII {
 
                     // 发现root不等的情况下，才union, 同时减小count
                     if (root != index) {
-                        id[root] = index;
+                        id[root] = index; //this will only change id[root], not union all points in this cluster
                         count--;
                     }
                 }
@@ -63,8 +63,8 @@ public class NumberOfIslandsII {
 
     public int root(int[] id, int i) {
         while (i != id[i]) {
-            id[i] = id[id[i]]; // 优化，为了减小树的高度
-            i = id[i];
+            id[i] = id[id[i]]; // 优化，为了减小树的高度. get to parent's parent
+            i = id[i]; //move up to parent
         }
         return i;
     }
