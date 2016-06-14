@@ -1,90 +1,51 @@
-package myPractice;
+import java.util.Arrays;
 
 public class MaximumGap {
 
 	public static void main(String[] args){
-		int[] num={};
+		int[] num={1,2,3,4,6};
 
 		MaximumGap helper = new MaximumGap();
 		System.out.println(helper.maximumGap(num));
 	}
-	
-	public int maximumGap(int[] num) {
-        if(num==null || num.length<2){
-        	return 0;
-        }
-        //to achieve linear, use bucket sort
-        
-        //set up variables
-        int min=num[0];
-        int max=num[0];
-        for(int i=1; i<num.length; i++){
-        	if(num[i]<min){
-        		min=num[i];
-        	}
-        	if(num[i]>max){
-        		max=num[i];
-        	}
-        }
-        
-        int bucketWidth = (max-min)/num.length+1;
-        int totalBuckets = (max-min)/bucketWidth+1;
-        
-        
-        Bucket[] bucketArray = new Bucket[totalBuckets];
-        //above array initialization only creates array, but all elements need to be allocated.
-        for(int i=0; i<bucketArray.length; i++){
-        	bucketArray[i]= new Bucket();
-        }
-        
-        //fill in buckets
-        for(int j=0; j<num.length;j++){
-        	int bucketIdx = (int)Math.ceil((num[j]-min)/bucketWidth);
-        	if( bucketArray[bucketIdx].min ==-1 || num[j]<bucketArray[bucketIdx].min){
-        		bucketArray[bucketIdx].min = num[j];
-        	}
-        	if(bucketArray[bucketIdx].max ==-1 ||num[j]>bucketArray[bucketIdx].max){
-        		bucketArray[bucketIdx].max = num[j];
-        	}
-        }
-        
-        //compute the gap
-        int maxGap = bucketWidth;
-        int maxLeft=min;
-        int maxRight=min;
-        
-        int curGap = 0;
-        int curLeft=-1;
-        int curRight=-1;
-        
-        for(int i=0; i<bucketArray.length; i++){
-        	if(bucketArray[i].min!=-1 || bucketArray[i].max!=-1){
-        		if(curLeft==-1){
-        			maxLeft=bucketArray[i].min;
-        			maxRight=bucketArray[i].max;
-        			maxGap=maxRight-maxLeft;
-        			curLeft = bucketArray[i].max;
-        		}
-        		else{
-        			curRight = bucketArray[i].min;
-        			curGap = curRight - curLeft;
-        				if(curGap>maxGap){
-        					maxLeft = curLeft;
-        					maxRight = curRight;
-        					maxGap = curGap;
-        				}
-        				curLeft = bucketArray[i].max;
-        		}
-        	}
-        }
-        return maxGap;
-    }
-}
 
-class Bucket{
-	int min;
-	int max;
-	
-	Bucket(){min=-1;max=-1;}
-	Bucket(int a,int b){min=a;max=b;}
+	public int maximumGap(int[] num) {
+		if (num == null || num.length < 2)
+			return 0;
+		// get the max and min value of the array
+		int min = num[0];
+		int max = num[0];
+		for (int i:num) {
+			min = Math.min(min, i);
+			max = Math.max(max, i);
+		}
+		// the minimum possibale gap, ceiling of the integer division
+		int gap = (int)Math.ceil((double)(max - min)/(num.length - 1));
+		int[] bucketsMIN = new int[num.length - 1]; // store the min value in that bucket
+		int[] bucketsMAX = new int[num.length - 1]; // store the max value in that bucket
+		Arrays.fill(bucketsMIN, Integer.MAX_VALUE);
+		Arrays.fill(bucketsMAX, Integer.MIN_VALUE);
+		// put numbers into buckets
+		for (int i:num) {
+			if (i == min || i == max)
+				continue;
+			int idx = (i - min) / gap; // index of the right position in the buckets
+			bucketsMIN[idx] = Math.min(i, bucketsMIN[idx]);
+			bucketsMAX[idx] = Math.max(i, bucketsMAX[idx]);
+		}
+		// scan the buckets for the max gap
+		int maxGap = Integer.MIN_VALUE;
+		int previous = min;
+		for (int i = 0; i < num.length - 1; i++) {
+			if (bucketsMIN[i] == Integer.MAX_VALUE && bucketsMAX[i] == Integer.MIN_VALUE)
+				// empty bucket
+				continue;
+			// min value minus the previous value is the current gap
+			maxGap = Math.max(maxGap, bucketsMIN[i] - previous);
+			// update previous bucket value
+			previous = bucketsMAX[i];
+		}
+		maxGap = Math.max(maxGap, max - previous); // updata the final max value gap
+		return maxGap;
+	}
 }
