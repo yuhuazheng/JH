@@ -15,24 +15,25 @@ public class WordBreakII {
 		ArrayList<String> empty = new ArrayList<>();
 		buf[0]=empty;
 		generateBuf(buf,s,dict);
+		if(buf[n]==null) return res;
 		List<String> item = new ArrayList<>();
 		helper(s,buf,n,item,res);
 		return res;
 	}
 
-	private void generateBuf(ArrayList<String>[] buf,String s,Set<String> dict){
-		int n = s.length();
-		for(int j=1;j<=n;j++){
-			for(String w : dict){
-				int l = w.length();
-				int i = j-l;
-				if(i<0) continue;
-				if(s.substring(i,j).equals(w)){
-					if(buf[j]==null){
-						ArrayList<String> temp = new ArrayList<>();
-						buf[j]=temp;
+	private void generateBuf(ArrayList<String>[] dp,String s,Set<String> dict){
+		for(int i=0; i<s.length(); i++){
+			//i是开始位置
+			if( dp[i] == null ) continue; //前面的部分必须是可以匹配的
+			for(String word:dict){
+				int len = word.length();
+				int end = i+len;
+				if(end > s.length()) continue;
+				if(s.substring(i,end).equals(word)){
+					if(dp[end] == null){
+						dp[end] = new ArrayList<String>();
 					}
-					buf[j].add(w);
+					dp[end].add(word);//记录上一个位置
 				}
 			}
 		}
@@ -49,9 +50,6 @@ public class WordBreakII {
 			res.add(sb.toString());
 			return;
 		}
-
-		if(buf[end]==null)
-			return;
 
 		for(String w: buf[end]){
 			int l = w.length();
