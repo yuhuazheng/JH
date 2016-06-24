@@ -1,4 +1,3 @@
-package Algorithms;
 
 class Point {
 	     int x;

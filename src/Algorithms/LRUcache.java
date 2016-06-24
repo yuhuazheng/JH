@@ -1,4 +1,3 @@
-package Algorithms;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,73 +6,87 @@ import java.util.Map;
 
 
 public class LRUcache {
-    
-	Map<Integer,Integer> cacheMap;
-	List<Integer> visitList;
+
+	class DLNode{
+		int key;
+		int val;
+		DLNode pre,next;
+		public DLNode(int k, int v){
+			key=k;
+			val=v;
+		}
+	}
+
 	int capacity;
+	int count;
+	HashMap<Integer,DLNode> cacheMap;
+	DLNode first,last;
 	
     public LRUcache(int capacity) {
     
-		cacheMap = new HashMap<Integer,Integer>();
-    	visitList = new ArrayList<Integer>();
-    	this.capacity=capacity;
+		this.capacity = capacity;
+		count=0;
+		cacheMap = new HashMap<Integer,DLNode>();
+    	first=null;
+    	last=null;
     }
     
     public int get(int key) {
-        if(cacheMap!=null && !cacheMap.isEmpty() && cacheMap.containsKey(key)){
-        	//update visitList
-        	MoveKeytoEnd(visitList,key);
-        	
-        	return cacheMap.get(key);
-        }
-        return -1;
+        DLNode n = cacheMap.get(key);
+		if(n==null)
+        	return -1;
+		else if(n!=last){ //should move n
+			if(n==first)
+				first=first.next;
+			else
+				n.pre.next=n.next;
+			n.next.pre=n.pre;
+			last.next=n;
+			n.pre=last;
+			n.next=null;
+			last=n;
+		}
+		return n.val;
     }
     
     public void set(int key, int value) {
-    	if(cacheMap ==null && cacheMap.isEmpty()){
-    		cacheMap = new HashMap<Integer,Integer>();
-    		cacheMap.put(key, value);
-    		visitList.add(key);
+    	DLNode n = cacheMap.get(key);
+		if(n!=null){
+			n.val=value;
+			if(n!=last){ //should move n
+				if(n==first)
+					first=first.next;
+				else
+					n.pre.next=n.next;
+				n.next.pre=n.pre;
+				last.next=n;
+				n.pre=last;
+				n.next=null;
+				last=n;
+			}
     	}
     	else{
-    		if(cacheMap.containsKey(key)){
-    			cacheMap.put(key, value);
-    			//update visitList
-    			MoveKeytoEnd(visitList,key);
-    		}
-    		else if(cacheMap.size()<= capacity){
-    			cacheMap.put(key, value);
-    			visitList.add(key);
-    		}
-    		else{
-    			//remove lru key
-    			int keyToRemove = visitList.get(0);
-    			cacheMap.remove(keyToRemove);
-    			cacheMap.put(key, value);
-    			
-    			//updatevistList
-    			visitList.remove(0);
-    			visitList.add(key);
-    		}
+
+			DLNode nn = new DLNode(key,value);
+
+			if(count>=capacity){
+				cacheMap.remove(first.key);
+				first=first.next;
+				if(first!=null)
+					first.pre=null;
+				else
+					last=null;
+				count--;
+			}
+			if(first==null || last==null)
+				first = nn;
+			else
+				last.next=nn;
+			nn.pre=last;
+			last=nn;
+			cacheMap.put(key,nn);
+			count++;
         }
     }
-
-public void MoveKeytoEnd(List<Integer> visitList2, int key){
-	if(visitList2==null || visitList2.isEmpty()){
-		return;
-	}
-	
-	int keyIdx = visitList2.lastIndexOf(key);
-	if(keyIdx<0){
-		//no such key
-		return;
-	}
-	else{
-		//move it to the end of the list
-		visitList2.remove(keyIdx);
-		visitList2.add(key);
-		return;
-	}
-}
 
 }

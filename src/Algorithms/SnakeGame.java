@@ -7,8 +7,8 @@ import java.util.Queue;
  */
 public class SnakeGame {
 
-    Queue<Point> foodQ;
-    Deque<Point> snake;
+    Queue<sPoint> foodQ;
+    Deque<sPoint> snake;
     int w;
     int h;
 
@@ -24,12 +24,12 @@ public class SnakeGame {
 
         foodQ = new LinkedList<>();
         for(int i=0;i<food.length;i++){
-            Point f = new Point(food[i][0],food[i][1]);
+            sPoint f = new sPoint(food[i][0],food[i][1]);
             foodQ.offer(f);
         }
 
         snake = new LinkedList<>();
-        Point o = new Point(0,0);
+        sPoint o = new sPoint(0,0);
         snake.offer(o);
     }
 
@@ -39,8 +39,8 @@ public class SnakeGame {
      Game over when snake crosses the screen boundary or bites its body. */
     public int move(String direction) {
         if(snake.size()==0) return -1;
-        Point head = snake.peek();
-        Point d = new Point(head.r,head.c);
+        sPoint head = snake.peek();
+        sPoint d = new sPoint(head.r,head.c);
         if(direction.equals("U")){
             d.r--;
         }
@@ -72,8 +72,8 @@ public class SnakeGame {
 
     private boolean alreadyHas(int row, int col){//the last point won't be issue when whole snake move
         if(snake.size()==0) return false;
-        Point l = snake.getLast();
-        for(Point s : snake){
+        sPoint l = snake.getLast();
+        for(sPoint s : snake){
             if(s.r==row && s.c==col&& !(l.r==row && l.c==col))
                 return true;
         }
@@ -81,10 +81,10 @@ public class SnakeGame {
     }
 }
 
-class Point{
+class sPoint{
     int r;
     int c;
-    public Point(int row,int col){
+    public sPoint(int row,int col){
         r=row;
         c=col;
     }
