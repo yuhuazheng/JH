@@ -1,4 +1,4 @@
-package Algorithms;
+
 
 /**
  * this can't be empty

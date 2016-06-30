@@ -1,4 +1,4 @@
-package Algorithms;
+
 
 public class RemoveNthNodeBackwards {
 	public ListNode removeNthFromEnd(ListNode head, int n) {

@@ -1,4 +1,3 @@
-package Algorithms;
 
 public class InsertionSortList {
 
