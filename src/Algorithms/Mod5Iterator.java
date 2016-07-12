@@ -62,7 +62,7 @@ public class Mod5Iterator implements Iterator<Integer> {
 
     @Override
     public Integer next() {
-        if(ntVal%5==0) { //first val is valid
+        if(ntVal%5==0 && !justRead) { //first val is valid
             justRead=true;
             return ntVal;
         }else{
@@ -76,7 +76,7 @@ public class Mod5Iterator implements Iterator<Integer> {
 
     @Override
     public void remove() {
-        if(ntVal%5==0) {
+        if(ntVal%5==0 && !justRemoved) {
             walker.remove(); //after remove, the iterator is unspecified
             justRemoved=true;
         }else{
