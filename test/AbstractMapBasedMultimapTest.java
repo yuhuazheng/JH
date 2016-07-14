@@ -1,3 +1,4 @@
+/*
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SortedSetMultimap;
@@ -9,9 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by yuhua on 07/07/16.
- */
+
 public class AbstractMapBasedMultimapTest {
     @Test
     public void testListMultimap() {
@@ -95,3 +94,4 @@ public class AbstractMapBasedMultimapTest {
     }
 
 }
+*/
