@@ -1,6 +1,5 @@
 
 
-	package myPractice;
 
 	public class SymmetricTree {
 
