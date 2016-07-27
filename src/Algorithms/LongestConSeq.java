@@ -11,58 +11,34 @@
 			System.out.println(helper.longestConsecutive(num));
 		}
 		
-		public int longestConsecutive(int[] num) {
-			if(num==null){
-				return 0;
+		public int longestConsecutive(int[] nums) {
+			if(nums==null||nums.length==0) return 0;
+			HashSet<Integer> buf = new HashSet<>();
+			for(int n: nums){
+				if(!buf.contains(n))
+					buf.add(n);
 			}
-			if(num.length<=1){
-				return num.length;
-			}
-			
-			//scan to build up hashset
-			HashSet<Integer> holder = new HashSet<Integer>();
-			for(int i=0; i<num.length; i++){
-				if(!holder.contains(num[i])){
-					holder.add(num[i]);
+
+			int maxLen=1;
+			while(!buf.isEmpty()){
+				int cur = (int)(buf.iterator().next());
+				buf.remove(cur);
+				int low=cur-1;
+				int up=cur+1;
+				int curLen=1;
+				while(buf.contains(low)){
+					curLen++;
+					buf.remove(low);
+					low--;
 				}
-			}
-			
-			Iterator iter = holder.iterator();
-			int value = (int)iter.next();
-			holder.remove(value);
-			
-			int maxLength=1;
-			int count=1;
-			int minvalue=value;
-			int maxvalue=value;
-			while(!holder.isEmpty()){
-				if(holder.contains(minvalue-1)){
-					count++;
-					minvalue-=1;
-					holder.remove(minvalue);
+				while(buf.contains(up)){
+					curLen++;
+					buf.remove(up);
+					up++;
 				}
-				else if(holder.contains(maxvalue+1)){
-					count++;
-					maxvalue+=1;
-					holder.remove(maxvalue);
-				}
-				else{
-					//cur sequence is finished
-					if(count>maxLength){
-						maxLength=count;
-					}
-					iter = holder.iterator();
-					value = (int)iter.next();
-					holder.remove(value);
-					count=1;
-					minvalue=value;
-					maxvalue=value;
-				}
+				maxLen=Math.max(maxLen,curLen);
 			}
-			if(count>maxLength){
-				maxLength=count;
-			}
-			return maxLength;
+			return maxLen;
 		}
 		       
 	}
