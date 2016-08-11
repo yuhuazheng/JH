@@ -1,20 +1,21 @@
-package Algorithms;
+
 
 public class Stock3 {
 
 	public int maxProfit(int[] prices) {
-		if(prices==null || prices.length<2){
-			return 0;
-		}
-		int[] local = new int[3]; //k=2; could be generalized
-		int[] global = new int[3];
-		for(int i=1;i<prices.length;i++){
+		if(prices==null||prices.length<=1) return 0;
+		int n=prices.length;
+		int k=2;
+		int[] local=new int[k+1];
+		int[] global=new int[k+1];
+
+		for(int i=1;i<n;i++){
 			int diff=prices[i]-prices[i-1];
-			for(int j=2;j>=1;j--){ //j is linear of k.
-				local[j]=Math.max(local[j]+diff, global[j-1]+(diff>0?diff:0));
-				global[j]=Math.max(global[j], local[j]);
+			for(int j=k;j>=1;j--){
+				local[j]=Math.max(local[j]+diff,global[j-1]+diff);
+				global[j]=Math.max(local[j],global[j]);
 			}
 		}
-		return global[2];
+		return global[k];
 	}
 }
