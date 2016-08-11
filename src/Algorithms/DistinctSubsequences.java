@@ -1,4 +1,3 @@
-package Algorithms;
 
 /**
  * Created by yuhuazh on 5/16/2016.

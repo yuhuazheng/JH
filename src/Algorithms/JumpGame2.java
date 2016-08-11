@@ -1,30 +1,26 @@
-package Algorithms;
 
 public class JumpGame2 {
 
-	public int jump(int[] A) {
-		if(A==null){
-			return 0;
-		}
-		if(A.length<2){
-			return 0;
-		}
+	public int jump(int[] nums) {
+		if(nums==null||nums.length<2) return 0;
+
+		int n=nums.length;
+		int curMax=nums[0];
 		int step=1;
-		int lastGlobal=A[0]; //Farthest distance without adding one more step
-		int global=A[0];
-		int local=A[0];
-		for(int i=1;i<=A.length-1&&i<=global;i++){
-			if(global>=A.length-1){
-				return step;
-			}
-			if(i>lastGlobal){
+		int i=1;
+		int ntMax=curMax;
+		if(curMax>=n-1) return 1;
+
+		while(i<=curMax){
+			ntMax=Math.max(ntMax,i+nums[i]);
+			if(i==curMax){
 				step++;
-				lastGlobal=global;
+				curMax=ntMax;
+				if(curMax>=n-1)
+					return step;
 			}
-			
-			local=i+A[i];
-			global=Math.max(local, global);
+			i++;
 		}
-		return 0;
+		return -1;
 	}
 }
