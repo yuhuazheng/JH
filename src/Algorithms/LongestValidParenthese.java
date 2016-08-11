@@ -12,6 +12,7 @@ public class LongestValidParenthese {
 	
 	public int longestValidParentheses(String s) {
 		if(s==null || s.length()<=1)	return 0;
+		if(s.indexOf(')')<0) return 0;
 		int maxlen=0;
 		int start =0;
 		Stack<Integer> stk = new Stack<Integer>();
