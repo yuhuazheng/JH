@@ -1,4 +1,3 @@
-package Algorithms;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +5,7 @@ import java.util.List;
 public class RestoreIP {
 
 	public static void main(String[] args){
-		String s="010010";
+		String s="1111";
 		RestoreIP inst = new RestoreIP();
 		for(String cur :inst.restoreIpAddresses(s)){
 			System.out.println(cur);
@@ -14,45 +13,37 @@ public class RestoreIP {
 	}
 	
 	public List<String> restoreIpAddresses(String s) {
-		ArrayList<String> res = new ArrayList<String>();
-		if(s==null || s.length()<4){
-			return res;
-		}
-		helper(s,0,new StringBuilder(), res);
+		List<String> res = new ArrayList<>();
+		if(s==null||s.length()<4) return res;
+		DFS(s,0,new ArrayList<String>(),res);
 		return res;
 	}
-	
-	//backtracking
-	private void helper(String s, int start, StringBuilder prefix, ArrayList<String> res){
-		if(start>=s.length()&& prefix.length()>0 && prefix.toString().split("[.]").length==4){
-			//valid ip address must have 4 parts
-			res.add(prefix.toString());
+
+	private void DFS(String s, int start, List<String> item, List<String> res){
+		if(start<s.length()&&item.size()>=4) return;
+		if(start>=s.length()&&item.size()!=4) return;
+		if(start>=s.length()&&item.size()==4){
+			res.add(item.get(0)+'.'+item.get(1)+'.'+item.get(2)+'.'+item.get(3));
 			return;
 		}
-		
-		//start from 255, decrease to 0, good for long strings
-		for(int i=3;i>=1;i--){
-			if(start+i>s.length()){
-				continue;
-			}
-			String subs = s.substring(start, start+i);
-			if(subs.charAt(0)=='0'&& subs.length()>1){ //01,001 are not valid ip address
-				continue;
-			}
-			int address = Integer.parseInt(subs);
-			if(address>=0 && address<=255){
-				int c=prefix.length();
-				if(prefix.length()>0){
-					prefix.append(".");
-				}
-				prefix.append(subs);
-				String[] ss =prefix.toString().split("[.]");
-				if(ss.length<=4){
-					helper(s,start+i,prefix,res);
-				}
-				prefix.delete(c, prefix.length()); //trace back is important!
-			}
+
+		if(s.charAt(start)=='0'){
+			item.add("0");
+			DFS(s,start+1,item,res);
+			item.remove(item.size()-1);
+			return;
 		}
-		return;
+
+		for(int i=1;i<=3;i++){
+			if(start+i>s.length())
+				break;
+			String part = s.substring(start, start+i);
+			int v = Integer.valueOf(part);
+			if(v<0||v>255)
+				break;
+			item.add(part);
+			DFS(s,start+i,item,res);
+			item.remove(item.size()-1);
+		}
 	}
 }
