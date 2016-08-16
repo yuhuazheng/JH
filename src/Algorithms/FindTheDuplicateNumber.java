@@ -1,4 +1,3 @@
-package Algorithms;
 
 /**
  * Created by yuhuazh on 4/28/2016.
@@ -27,7 +26,7 @@ public class FindTheDuplicateNumber {
 
     public static void main(String[] args) {
         FindTheDuplicateNumber inst = new FindTheDuplicateNumber();
-        int[] nums = {1,3,4,2,2};
+        int[] nums = {1,1};
         System.out.println(inst.findDuplicate(nums));
     }
 }
