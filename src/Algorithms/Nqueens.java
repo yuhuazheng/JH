@@ -1,4 +1,3 @@
-package Algorithms;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,58 +13,48 @@ public class Nqueens {
 	
 	public List<List<String>> solveNQueens(int n) {
 		List<List<String>> res = new ArrayList<>();
-		if (n <= 0) return res;
-		if (n == 1) {
+		if(n<=0) return res;
+		if(n==1){
 			List<String> temp = new ArrayList<>();
 			temp.add("Q");
 			res.add(temp);
 			return res;
 		}
 
-		boolean[] usedCol = new boolean[n];
 		int[] item = new int[n];
 		Arrays.fill(item,-1);
-		helper(0, usedCol, item, res);
+		DFS(n,0,item,res);
 		return res;
 	}
 
-	//add kth row
-	private void helper(int k, boolean[] usedCol, int[] item, List<List<String>> res) {
-		int n = usedCol.length;
-		if (k == n) {
-			//a valid solution
-			List<String> oneSol = new ArrayList<>();
-			for (int i = 0; i < n; i++) {
-				char[] oneRow = new char[n];
-				Arrays.fill(oneRow, '.');
-				oneRow[item[i]] = 'Q';
-				oneSol.add(new String(oneRow));
+	private void DFS(int n, int row, int[] item, List<List<String>> res){
+		if(row>=n){
+			List<String> r = new ArrayList<>();
+			for(int i=0;i<n;i++){
+				char[] chs = new char[n];
+				Arrays.fill(chs,'.');
+				chs[item[i]]='Q';
+				r.add(String.valueOf(chs));
 			}
-			res.add(oneSol);
+			res.add(r);
 			return;
 		}
 
-		//update kth row
-		for (int i = 0; i < n; i++) {
-			if (!isValid(k,i, usedCol, item))
-				continue;
-			item[k] = i;
-			usedCol[i] = true;
-			helper(k + 1, usedCol, item, res);
-			usedCol[i] = false;
-			item[k] = -1;
+		for(int i=0;i<n;i++){
+			boolean valid=true;
+			if(row>0){
+				for(int k=0;k<row;k++){
+					if(item[k]==i||Math.abs(row-k)==Math.abs(i-item[k])){
+						valid=false;
+						break;
+					}
+				}
+			}
+			if(!valid) continue;
+			item[row]=i;
+			DFS(n,row+1,item,res);
+			item[row]=-1;;
 		}
-	}
-
-	private boolean isValid(int k, int i, boolean[] usedCol,int[] item) {
-		//if valid at kth row, ith col
-		if (usedCol[i])
-			return false;
-		for (int r = 0; r < k; r++) {
-			if (Math.abs(k - r) == Math.abs(i - item[r]))
-				return false;
-		}
-		return true;
 	}
 
 }
