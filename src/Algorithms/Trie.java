@@ -1,6 +1,7 @@
-package Algorithms;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 class TrieNode {
     // Initialize your data structure here.
@@ -74,7 +75,24 @@ public class Trie {
             if(temp==null) return false;
             cur=temp;
         }
-        return true;
+        //strictly exclude the word itself
+        return cur.children!=null&&cur.children.size()>0;
+        //or a word can be thought as its own prefix
+        //return true;
+    }
+
+    public static void main(String[] args) {
+        String[] strs = {"a","ab","dogcat","dog", "hello","he"};
+        List<String> res = new ArrayList<>();
+        Trie inst = new Trie();
+        for(String s: strs)
+            inst.insert(s);
+        for(String s: strs){
+            if(inst.startsWith(s))
+                res.add(s);
+        }
+        for(String s: res)
+            System.out.println(s);
     }
 }
 
