@@ -44,10 +44,6 @@ public class TextJustification {
             return sb.toString();
         }
 
-
-
-
-
         int spaceCount = maxWidth-l;
         int spaceGroup = spaceCount/(cur.size()-1);
         int spaceResidual = spaceCount%(cur.size()-1);
