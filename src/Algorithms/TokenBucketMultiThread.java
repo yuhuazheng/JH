@@ -1,3 +1,5 @@
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -17,7 +19,7 @@ public class TokenBucketMultiThread {
         capacity = tokensPerSeconds = (int) (tokensPerUnit / unit.toSeconds(1L));
     }
 
-    public synchronized boolean take() throws Exception{
+    public synchronized boolean take() {
         try {
             long now = System.currentTimeMillis();
             tokens += (int) ((now - timestamp) * tokensPerSeconds / 1000);
@@ -34,30 +36,28 @@ public class TokenBucketMultiThread {
 
     public static void main(String[] args) throws Exception {
         //TokenBucket bucket = new TokenBucket(250, TimeUnit.MINUTES);
-        TokenBucketMultiThread bucket = new TokenBucketMultiThread(4);
-        client c1 = new client(1);
-        client c2 = new client(2);
-        c1.start();
-        c2.start();
+        TokenBucketMultiThread bucket = new TokenBucketMultiThread(3);
         Thread.sleep(1000L);
-        for (int i = 0; i < 5; i++) {
-            int t = (int) (Math.random() * 10 + 1);
-            if (t > 5)
-                c1.run(bucket);
-            else
-                c2.run(bucket);
+        ExecutorService clientPool = Executors.newFixedThreadPool(5);
+        for(int i=0;i<5;i++){
+            client c = new client(i,bucket);
+            clientPool.execute(c);
         }
+        clientPool.shutdown();
     }
 }
 
 class client extends Thread{
     private int id;
+    private TokenBucketMultiThread b;
 
-    public client(int i){
+    public client(int i,TokenBucketMultiThread tb){
         id=i;
+        b=tb;
     }
 
-    public void run(TokenBucketMultiThread b)throws Exception{
+    @Override
+    public void run(){
         System.out.println("id "+id+" running ...");
         System.out.println(b.take());
     }

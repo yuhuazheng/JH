@@ -17,7 +17,7 @@ public class TokenBucket {
         capacity = tokensPerSeconds = (int) (tokensPerUnit / unit.toSeconds(1L));
     }
 
-    public synchronized boolean take(){
+    public boolean take(){
             long now = System.currentTimeMillis();
             tokens += (int) ((now - timestamp) * tokensPerSeconds / 1000);
             if (tokens > capacity) tokens = capacity;
