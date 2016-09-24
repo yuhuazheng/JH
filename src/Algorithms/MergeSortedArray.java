@@ -1,4 +1,3 @@
-package myPractice;
 
 public class MergeSortedArray {
 
