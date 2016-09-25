@@ -20,15 +20,15 @@ public class LetterCombinations {
 		mp.put('8',"tuv");
 		mp.put('9',"wxyz");
 
-		res=mapDigit(digits,0,mp,res);
+		mapDigit(digits,0,mp,res);
 		return res;
 	}
 
-	private List<String> mapDigit(String digits,int idx,HashMap<Character,String> mp,List<String> res){
-		if(idx==digits.length()) return res;
+	private void mapDigit(String digits,int idx,HashMap<Character,String> mp,List<String> res){
+		if(idx==digits.length()) return;
 		List<String> res2= new ArrayList<>();
 		char c = digits.charAt(idx);
-		if(!mp.containsKey(c)) return res;
+		if(!mp.containsKey(c)) return;
 		String chs = mp.get(c);
 		for(char ch:chs.toCharArray()){
 			if(res.size()==0){
@@ -44,7 +44,9 @@ public class LetterCombinations {
 				}
 			}
 		}
-		return mapDigit(digits,idx+1,mp,res2);
+		res.clear();
+		res.addAll(res2);
+		mapDigit(digits,idx+1,mp,res);
 	}
 
 	public static void main(String[] args) {
