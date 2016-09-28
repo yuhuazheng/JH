@@ -1,4 +1,3 @@
-package myPractice;
 
 import java.util.Arrays;
 
@@ -10,55 +9,41 @@ public class SortColors {
 		System.out.println(Arrays.toString(A));
 	}
 	
-	public static void sortColors(int[] A){
-		if(A==null || A.length<=0){
+	public static void sortColors(int[] nums){
+		if(nums==null||nums.length<=1)
 			return;
-		}
-		
-		int left=0; //track color0
-		int right=A.length-1; //track color2
-		int front=0; //track current item
-		
-		int counter0=0;
-		int counter1=0;
-		int counter2=0;
-		
-		while(front<=right){
-			if(A[front]==0){
-				A[left]=0;
-				left++;
-				counter0++;
-				front++;
+
+		int red=-1;
+		int white=-1;
+		int blue=-1;
+		for(int i=0;i<nums.length;i++){
+			int v=nums[i];
+			if(v==2){
+				if(blue<0){
+					if(red>=0)
+						blue=red;
+					if(white>=0)
+						blue=white;
+				}
+				nums[++blue]=2;
 			}
-			else if(A[front]==2){
-				while(front<=right && A[right]==2){
-					right--;
-					counter2++;
+			else if(v==1){
+				if(white<0){
+					if(red>=0)
+						white=red;
 				}
-				if(front<=right && A[right]==0){
-					A[left]=0;
-					left++;
-					counter0++;
-					A[right]=2;
-					right--;
-					counter2++;
-				}
-				else if(front<=right && A[right]==1){
-					A[right]=2;
-					right--;
-					counter2++;
-					counter1++;
-				}
-				front++;
+				nums[++white]=1;
+				if(blue>=0)
+					nums[++blue]=2;
 			}
 			else{
-				//A[front]==1
-				counter1++;
-				front++;
+				nums[++red]=0;
+				if(white>=0)
+					nums[++white]=1;
+
+				if(blue>=0)
+					nums[++blue]=2;
 			}
-		}
-		if(left<=right && right<A.length){
-			Arrays.fill(A,left,right+1,1);
 		}
 	}
 }
