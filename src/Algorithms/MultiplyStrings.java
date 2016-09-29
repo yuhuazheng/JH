@@ -1,39 +1,48 @@
-package myPractice;
 
 public class MultiplyStrings {
 
 	public static void main(String[] args){
 		String num1="98";
-		String num2="0";
+		String num2="9";
 		MultiplyStrings helper = new MultiplyStrings();
 		System.out.println(helper.multiply(num1, num2));
 	}
 	
 	public String multiply(String num1, String num2) {
-		if(num1==null||num1==""||num2==null||num2==""){
-			return null;
-		}
-		if(num1.charAt(0)=='0' || num2.charAt(0)=='0'){
+		if((num1==null||num1.length()==0||num1.equals("0"))||(num2==null||num2.length()==0||num2.equals("0")))
 			return "0";
-		}
-		
-		StringBuilder res = new StringBuilder();
-		int cur=0;
-		for(int i=0;i<(num1.length()+num2.length()-1);i++){
-			for(int j=Math.max(0, i-num1.length()+1);j<num2.length();j++){
-				if(j<=i){
-					cur +=(num1.charAt(num1.length()-1-i+j)-'0')*(num2.charAt(num2.length()-1-j)-'0');
+
+		int m=num1.length();
+		int n=num2.length();
+		int[] res = new int[m+n];
+		for(int i=m-1;i>=0;i--){
+			int v1=num1.charAt(i)-'0';
+			for(int j=n-1;j>=0;j--){
+				int v2=num2.charAt(j)-'0';
+				int r = v1*v2;
+				int idx = m-1-i+n-1-j;
+				res[idx]+=r%10;
+				if(res[idx]>9){
+					int carry = res[idx]/10;
+					res[idx]=res[idx]%10;
+					res[idx+1]+=carry;
 				}
-				else{
-					break;
+				res[idx+1]+=r/10;
+				if(res[idx+1]>9){
+					int carry = res[idx+1]/10;
+					res[idx+1]=res[idx+1]%10;
+					res[idx+2]+=carry;
 				}
 			}
-			res.append(cur%10);
-			cur=cur/10;
 		}
-		if(cur>0){
-			res.append(cur);
+
+		int k=m+n-1;
+		if(res[k]==0)
+			k--;
+		StringBuilder sb = new StringBuilder();
+		while(k>=0){
+			sb.append(res[k--]);
 		}
-		return res.reverse().toString();
+		return sb.toString();
 	}
 }
