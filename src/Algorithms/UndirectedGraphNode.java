@@ -1,4 +1,3 @@
-package myPractice;
 
 import java.util.ArrayList;
 import java.util.List;
