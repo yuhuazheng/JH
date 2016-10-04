@@ -7,7 +7,7 @@ import java.util.HashSet;
  * Created by yuhuazh on 7/2/2016.
  */
 public class LongestChain {
-    public int longestchain(String[] words) {
+    public static int lc(String[] words) {
         HashSet<String> dict = new HashSet<String>();
         HashMap<String, Integer> map = new HashMap<String, Integer>();
         //use map to store the longest len for string, save time
@@ -26,7 +26,7 @@ public class LongestChain {
         return longest;
     }
 
-    public int helper(String s, HashSet<String> dict, HashMap<String, Integer> map) {
+    public static int helper(String s, HashSet<String> dict, HashMap<String, Integer> map) {
         int result = 0;
         for (int i = 0; i < s.length(); i++) {
             String newStr = s.substring(0, i) + s.substring(i + 1);
@@ -45,7 +45,6 @@ public class LongestChain {
 
     public static void main(String[] args) {
         String[] words = {"a", "abcd", "bcd", "abd", "cd", "c"};
-        LongestChain inst = new LongestChain();
-        System.out.print(inst.longestchain(words));
+        System.out.print(lc(words));
     }
 }
