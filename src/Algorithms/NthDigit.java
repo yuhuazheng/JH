@@ -6,30 +6,22 @@ public class NthDigit {
         if(n==1)
             return 1;
 
-        long v=1;
+        long base=9;
         int step=1;
-        long bound=10;
-        long cur=1;
 
-        while(cur<=n){
-            v+=1;
-            if(v>=bound){
-                step+=1;
-                bound*=10;
-            }
-            cur+=step;
-            if(cur>=n){
-                int diff=(int)(cur-n);
-                int i=diff;
-                long temp=v;
-                while(i>0){
-                    temp/=10;
-                    i--;
-                }
-                return (int)temp%10;
-            }
+        while(n>base*step){
+            n-=(int)base*step;
+            step+=1;
+            base*=10;
         }
-        return -1;
+
+        int numIdx = (n-1)/step;
+        int digIdx = (n-1)%step;
+
+        int num = (int)Math.pow(10,step-1)+numIdx;
+        int res = Integer.parseInt(String.valueOf(num).charAt(digIdx)+"");
+
+        return res;
     }
 
     public static void main(String[] args) {
